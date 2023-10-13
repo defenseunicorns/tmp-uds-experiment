@@ -1,0 +1,35 @@
+kind: ZarfPackageConfig
+metadata:
+  name: uds-k3d-setup
+  description: "UDS K3d Cluster Setup"
+  url: https://istio.io/latest/
+  yolo: true
+
+variables:
+  - name: CLUSTER_NAME
+    description: "Name of the cluster to create"
+    default: "uds-k3d-cluster"
+
+components:
+  - name: destroy-cluster
+    description: "Optionally destroy the cluster before creating it"
+    actions:
+      onDeploy:
+        before:
+          - cmd: k3d cluster delete ${ZARF_VAR_CLUSTER_NAME}
+            description: "Destroy the cluster"
+
+  - name: create-cluster
+    required: true
+    description: "Create the k3d cluster "
+    actions:
+      onDeploy:
+        before:
+          - cmd: |
+              k3d cluster create \
+              --api-port 6550 \
+              --k3s-arg "--disable=traefik@server:*" \
+              --k3s-arg "--disable=metrics-server@server:*" \
+              --k3s-arg "--disable=loadbalancer@server:*" \
+              ${ZARF_VAR_CLUSTER_NAME}
+            description: "Create the cluster"

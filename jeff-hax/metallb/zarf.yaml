@@ -1,0 +1,27 @@
+kind: ZarfPackageConfig
+metadata:
+  name: uds-metallb-setup
+  description: "UDS Metallb Setup"
+  url: https://metallb.universe.tf/installation/
+  yolo: true
+
+components:
+  - name: metallb-config
+    required: true
+    description: "Install MetalLB to provide a load balancer for the cluster"
+    actions:
+      onDeploy:
+        before:
+          - cmd: zarf tools kubectl get nodes -o=jsonpath='{.items[0].status.addresses[?(@.type=="InternalIP")].address}' | cut -d'.' -f1-3
+            description: "Load network ip base for MetalLB"
+            setVariables:
+              - name: BASE_IP
+    charts:
+      - name: metallb
+        url: https://metallb.github.io/metallb
+        namespace: metallb-system
+        version: 0.13.11
+    manifests:
+      - name: metallb-config
+        files:
+          - "metallb.yaml"
