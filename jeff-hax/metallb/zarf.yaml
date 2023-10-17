@@ -5,6 +5,11 @@ metadata:
   url: https://metallb.universe.tf/installation/
   yolo: true
 
+variables:
+  - name: CLUSTER_NAME
+    description: "Name of the cluster to create"
+    default: "uds-k3d-cluster"
+
 components:
   - name: metallb-config
     required: true
@@ -25,3 +30,11 @@ components:
       - name: metallb-config
         files:
           - "metallb.yaml"
+
+  - name: haproxy-ingress
+    required: true
+    description: "Install the haproxy k3d helper"
+    manifests:
+      - name: haproxy-k3d-helper
+        files:
+          - "haproxy.yaml"

@@ -27,9 +27,10 @@ components:
         before:
           - cmd: |
               k3d cluster create \
-              --api-port 6550 \
+              -p "80:20080@loadbalancer" \
+              -p "443:20443@loadbalancer" \
               --k3s-arg "--disable=traefik@server:*" \
               --k3s-arg "--disable=metrics-server@server:*" \
-              --k3s-arg "--disable=loadbalancer@server:*" \
+              --k3s-arg "--disable=servicelb@server:*" \
               ${ZARF_VAR_CLUSTER_NAME}
             description: "Create the cluster"

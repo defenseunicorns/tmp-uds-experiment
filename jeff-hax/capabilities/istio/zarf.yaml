@@ -1,0 +1,74 @@
+kind: ZarfPackageConfig
+metadata:
+  name: uds-capabilities-istio
+  description: "UDS Istio Capability"
+  url: https://istio.io/latest/
+  yolo: true
+
+components:
+  - name: istio-controlplane
+    required: true
+    description: "Install the Istio control plane based on https://istio.io/latest/docs/setup/install/helm/"
+    charts:
+      - name: base
+        namespace: istio-system
+        url: https://istio-release.storage.googleapis.com/charts
+        version: 1.19.0
+      - name: istiod
+        namespace: istio-system
+        url: https://istio-release.storage.googleapis.com/charts
+        version: 1.19.0
+    manifests:
+      - name: uds-global-istio-config
+        namespace: istio-system
+        files:
+          - "manifests/envoy-filters.yaml"
+          - "manifests/peer-authentication.yaml"
+
+  - name: istio-admin-gateway
+    required: true
+    description: "Deploy an admin gateway"
+    charts:
+      - name: gateway
+        releaseName: admin-ingressgateway
+        namespace: istio-admin-gateway
+        url: https://istio-release.storage.googleapis.com/charts
+        version: 1.19.0
+      - name: uds-istio-config
+        version: 0.1.0
+        localPath: uds-istio-config
+        namespace: istio-admin-gateway
+        valuesFiles:
+          - "values/config-admin.yaml"
+
+  - name: istio-tenant-gateway
+    required: true
+    description: "Deploy a tenant gateway"
+    charts:
+      - name: gateway
+        releaseName: tenant-ingressgateway
+        namespace: istio-tenant-gateway
+        url: https://istio-release.storage.googleapis.com/charts
+        version: 1.19.0
+      - name: uds-istio-config
+        version: 0.1.0
+        localPath: uds-istio-config
+        namespace: istio-tenant-gateway
+        valuesFiles:
+          - "values/config-tenant.yaml"
+
+  - name: istio-passthrough-gateway
+    required: true
+    description: "Deploy a TLS passthrough gateway"
+    charts:
+      - name: gateway
+        releaseName: passthrough-ingressgateway
+        namespace: istio-passthrough-gateway
+        url: https://istio-release.storage.googleapis.com/charts
+        version: 1.19.0
+      - name: uds-istio-config
+        version: 0.1.0
+        localPath: uds-istio-config
+        namespace: istio-passthrough-gateway
+        valuesFiles:
+          - "values/config-passthrough.yaml"
