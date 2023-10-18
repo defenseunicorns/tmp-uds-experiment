@@ -25,6 +25,8 @@ components:
     actions:
       onDeploy:
         before:
+          - cmd: echo "B0D07F1F43F246409516ADBDCCC86FCE" > ${TMPDIR}/machine-id
+            description: "Create a machine-id file for the nodes"
           - cmd: |
               k3d cluster create \
               -p "80:20080@loadbalancer" \
@@ -32,5 +34,6 @@ components:
               --k3s-arg "--disable=traefik@server:*" \
               --k3s-arg "--disable=metrics-server@server:*" \
               --k3s-arg "--disable=servicelb@server:*" \
+              --volume ${TMPDIR}/machine-id:/etc/machine-id@server:* \
               ${ZARF_VAR_CLUSTER_NAME}
             description: "Create the cluster"
