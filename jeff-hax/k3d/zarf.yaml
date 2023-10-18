@@ -35,6 +35,7 @@ components:
               k3d cluster create \
               -p "80:20080@loadbalancer" \
               -p "443:20443@loadbalancer" \
+              --api-port 6550 \
               --k3s-arg "--disable=traefik@server:*" \
               --k3s-arg "--disable=metrics-server@server:*" \
               --k3s-arg "--disable=servicelb@server:*" \
