@@ -7,8 +7,8 @@ metadata:
 
 variables:
   - name: CLUSTER_NAME
-    description: "Name of the cluster to create"
-    default: "uds-k3d-cluster"
+    description: "Name of the cluster"
+    default: "uds"
 
 components:
   - name: destroy-cluster
