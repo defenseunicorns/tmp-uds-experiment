@@ -1,7 +1,7 @@
 kind: ZarfPackageConfig
 metadata:
   name: uds-k3d-setup
-  description: "UDS K3d Cluster Setup"
+  description: UDS K3d Cluster Setup
   url: https://istio.io/latest/
   yolo: true
 
@@ -25,21 +25,36 @@ components:
 
   - name: create-cluster
     required: true
-    description: "Create the k3d cluster "
+    description: "Create the k3d cluster"
     actions:
       onDeploy:
         before:
-          - cmd: echo "B0D07F1F43F246409516ADBDCCC86FCE" > ${TMPDIR}/machine-id
+          - cmd: echo "B0D07F1F43F246409516ADBDCCC86FCE" > tmp-machine-id
             description: "Create a machine-id file for the nodes"
           - cmd: |
               k3d cluster create \
-              -p "80:20080@loadbalancer" \
-              -p "443:20443@loadbalancer" \
+              -p "80:20080@server:*" \
+              -p "443:20443@server:*" \
               --api-port 6550 \
               --k3s-arg "--disable=traefik@server:*" \
               --k3s-arg "--disable=metrics-server@server:*" \
               --k3s-arg "--disable=servicelb@server:*" \
               --image ${ZARF_VAR_K3D_IMAGE} \
-              --volume ${TMPDIR}/machine-id:/etc/machine-id@server:* \
+              --volume $(pwd)/tmp-machine-id:/etc/machine-id@server:* \
               ${ZARF_VAR_CLUSTER_NAME}
             description: "Create the cluster"
+        after:
+          - cmd: rm -f tmp-machine-id
+
+  - name: remote-info
+    description: "Print out information about how to access the cluster remotely"
+    actions:
+      onDeploy:
+        before:
+          - cmd: |
+              echo "You can access this cluster over SSH (note http redirect will redirect to port 80 instead of 8080):"
+              echo "ssh -N -L 8080:localhost:80 -L 8443:localhost:443 -L 6550:localhost:6550"
+              echo .
+              echo "To get the kubeconfig:"
+              echo "k3d kubeconfig get ${ZARF_VAR_CLUSTER_NAME}"
+            description: "Remote access information"
