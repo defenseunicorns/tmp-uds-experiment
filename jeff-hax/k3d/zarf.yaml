@@ -10,6 +10,10 @@ variables:
     description: "Name of the cluster"
     default: "uds"
 
+  - name: K3D_IMAGE
+    description: "K3d image to use"
+    default: "rancher/k3s:v1.27.4-k3s1"
+
 components:
   - name: destroy-cluster
     description: "Optionally destroy the cluster before creating it"
@@ -34,6 +38,7 @@ components:
               --k3s-arg "--disable=traefik@server:*" \
               --k3s-arg "--disable=metrics-server@server:*" \
               --k3s-arg "--disable=servicelb@server:*" \
+              --image ${ZARF_VAR_K3D_IMAGE} \
               --volume ${TMPDIR}/machine-id:/etc/machine-id@server:* \
               ${ZARF_VAR_CLUSTER_NAME}
             description: "Create the cluster"
