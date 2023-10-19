@@ -1,0 +1,9 @@
+bundle:
+  deploy:
+    zarf-packages:
+      uds-k3d-setup:
+        set:
+          #cluster_name: bundle-test   
+      # k3d-destroy:
+      #   set:
+      #     cluster_name: bundle-test   
