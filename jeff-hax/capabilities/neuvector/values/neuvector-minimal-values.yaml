@@ -25,6 +25,8 @@ controller:
   #   privileged: true
   #   runAsNonRoot: true
   #   runAsUser: 1000
+  apisvc:
+    type: ClusterIP
   secret:
     enabled: true
     data:
