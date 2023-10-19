@@ -3,13 +3,13 @@
 import { GenericKind, RegisterKind } from "kubernetes-fluent-client";
 
 export class WorkloadGroup extends GenericKind {
-    /**
-     * `WorkloadGroup` enables specifying the properties of a single workload for bootstrap and
-     * provides a template for `WorkloadEntry`, similar to how `Deployment` specifies properties
-     * of workloads via `Pod` templates.
-     */
-    spec?:   Spec;
-    status?: { [key: string]: unknown };
+  /**
+   * `WorkloadGroup` enables specifying the properties of a single workload for bootstrap and
+   * provides a template for `WorkloadEntry`, similar to how `Deployment` specifies properties
+   * of workloads via `Pod` templates.
+   */
+  spec?: Spec;
+  status?: { [key: string]: unknown };
 }
 
 /**
@@ -18,28 +18,28 @@ export class WorkloadGroup extends GenericKind {
  * of workloads via `Pod` templates.
  */
 export interface Spec {
-    /**
-     * Metadata that will be used for all corresponding `WorkloadEntries`.
-     */
-    metadata?: Metadata;
-    /**
-     * `ReadinessProbe` describes the configuration the user must provide for healthchecking on
-     * their workload.
-     */
-    probe?: Probe;
-    /**
-     * Template to be used for the generation of `WorkloadEntry` resources that belong to this
-     * `WorkloadGroup`.
-     */
-    template?: Template;
+  /**
+   * Metadata that will be used for all corresponding `WorkloadEntries`.
+   */
+  metadata?: Metadata;
+  /**
+   * `ReadinessProbe` describes the configuration the user must provide for healthchecking on
+   * their workload.
+   */
+  probe?: Probe;
+  /**
+   * Template to be used for the generation of `WorkloadEntry` resources that belong to this
+   * `WorkloadGroup`.
+   */
+  template?: Template;
 }
 
 /**
  * Metadata that will be used for all corresponding `WorkloadEntries`.
  */
 export interface Metadata {
-    annotations?: { [key: string]: string };
-    labels?:      { [key: string]: string };
+  annotations?: { [key: string]: string };
+  labels?: { [key: string]: string };
 }
 
 /**
@@ -47,50 +47,50 @@ export interface Metadata {
  * their workload.
  */
 export interface Probe {
-    /**
-     * Health is determined by how the command that is executed exited.
-     */
-    exec?: Exec;
-    /**
-     * Minimum consecutive failures for the probe to be considered failed after having succeeded.
-     */
-    failureThreshold?: number;
-    /**
-     * `httpGet` is performed to a given endpoint and the status/able to connect determines
-     * health.
-     */
-    httpGet?: HTTPGet;
-    /**
-     * Number of seconds after the container has started before readiness probes are initiated.
-     */
-    initialDelaySeconds?: number;
-    /**
-     * How often (in seconds) to perform the probe.
-     */
-    periodSeconds?: number;
-    /**
-     * Minimum consecutive successes for the probe to be considered successful after having
-     * failed.
-     */
-    successThreshold?: number;
-    /**
-     * Health is determined by if the proxy is able to connect.
-     */
-    tcpSocket?: TCPSocket;
-    /**
-     * Number of seconds after which the probe times out.
-     */
-    timeoutSeconds?: number;
+  /**
+   * Health is determined by how the command that is executed exited.
+   */
+  exec?: Exec;
+  /**
+   * Minimum consecutive failures for the probe to be considered failed after having succeeded.
+   */
+  failureThreshold?: number;
+  /**
+   * `httpGet` is performed to a given endpoint and the status/able to connect determines
+   * health.
+   */
+  httpGet?: HTTPGet;
+  /**
+   * Number of seconds after the container has started before readiness probes are initiated.
+   */
+  initialDelaySeconds?: number;
+  /**
+   * How often (in seconds) to perform the probe.
+   */
+  periodSeconds?: number;
+  /**
+   * Minimum consecutive successes for the probe to be considered successful after having
+   * failed.
+   */
+  successThreshold?: number;
+  /**
+   * Health is determined by if the proxy is able to connect.
+   */
+  tcpSocket?: TCPSocket;
+  /**
+   * Number of seconds after which the probe times out.
+   */
+  timeoutSeconds?: number;
 }
 
 /**
  * Health is determined by how the command that is executed exited.
  */
 export interface Exec {
-    /**
-     * Command to run.
-     */
-    command?: string[];
+  /**
+   * Command to run.
+   */
+  command?: string[];
 }
 
 /**
@@ -98,36 +98,36 @@ export interface Exec {
  * health.
  */
 export interface HTTPGet {
-    /**
-     * Host name to connect to, defaults to the pod IP.
-     */
-    host?: string;
-    /**
-     * Headers the proxy will pass on to make the request.
-     */
-    httpHeaders?: HTTPHeader[];
-    /**
-     * Path to access on the HTTP server.
-     */
-    path?: string;
-    /**
-     * Port on which the endpoint lives.
-     */
-    port?:   number;
-    scheme?: string;
+  /**
+   * Host name to connect to, defaults to the pod IP.
+   */
+  host?: string;
+  /**
+   * Headers the proxy will pass on to make the request.
+   */
+  httpHeaders?: HTTPHeader[];
+  /**
+   * Path to access on the HTTP server.
+   */
+  path?: string;
+  /**
+   * Port on which the endpoint lives.
+   */
+  port?: number;
+  scheme?: string;
 }
 
 export interface HTTPHeader {
-    name?:  string;
-    value?: string;
+  name?: string;
+  value?: string;
 }
 
 /**
  * Health is determined by if the proxy is able to connect.
  */
 export interface TCPSocket {
-    host?: string;
-    port?: number;
+  host?: string;
+  port?: number;
 }
 
 /**
@@ -135,34 +135,34 @@ export interface TCPSocket {
  * `WorkloadGroup`.
  */
 export interface Template {
-    /**
-     * Address associated with the network endpoint without the port.
-     */
-    address?: string;
-    /**
-     * One or more labels associated with the endpoint.
-     */
-    labels?: { [key: string]: string };
-    /**
-     * The locality associated with the endpoint.
-     */
-    locality?: string;
-    /**
-     * Network enables Istio to group endpoints resident in the same L3 domain/network.
-     */
-    network?: string;
-    /**
-     * Set of ports associated with the endpoint.
-     */
-    ports?: { [key: string]: number };
-    /**
-     * The service account associated with the workload if a sidecar is present in the workload.
-     */
-    serviceAccount?: string;
-    /**
-     * The load balancing weight associated with the endpoint.
-     */
-    weight?: number;
+  /**
+   * Address associated with the network endpoint without the port.
+   */
+  address?: string;
+  /**
+   * One or more labels associated with the endpoint.
+   */
+  labels?: { [key: string]: string };
+  /**
+   * The locality associated with the endpoint.
+   */
+  locality?: string;
+  /**
+   * Network enables Istio to group endpoints resident in the same L3 domain/network.
+   */
+  network?: string;
+  /**
+   * Set of ports associated with the endpoint.
+   */
+  ports?: { [key: string]: number };
+  /**
+   * The service account associated with the workload if a sidecar is present in the workload.
+   */
+  serviceAccount?: string;
+  /**
+   * The load balancing weight associated with the endpoint.
+   */
+  weight?: number;
 }
 
 RegisterKind(WorkloadGroup, {

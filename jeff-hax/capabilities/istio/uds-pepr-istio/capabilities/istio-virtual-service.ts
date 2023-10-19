@@ -24,30 +24,6 @@ enum config {
 const validGateway = ["admin", "tenant", "passthrough"];
 
 When(a.Service)
-  .IsDeleted()
-  .WithLabel(config.Gateway)
-  .Watch(async svc => {
-    const logTitle = `VirtualService ${svc.metadata.namespace}/${svc.metadata.name}`;
-
-    try {
-      // Validate the gateway
-      getValidGateway(svc);
-
-      // Delete the VirtualService
-      await K8s(VirtualService).Delete({
-        metadata: {
-          name: svc.metadata.name,
-          namespace: svc.metadata.namespace,
-        },
-      });
-
-      Log.info(`Deleted ${logTitle}`);
-    } catch (e) {
-      Log.error(e, `Error deleting ${logTitle}`);
-    }
-  });
-
-When(a.Service)
   .IsCreatedOrUpdated()
   .WithLabel(config.Gateway)
   .Watch(async svc => {
@@ -78,10 +54,19 @@ When(a.Service)
         port: { number },
       };
 
+      // Establish the owner ref
+      const ownerReference = {
+        apiVersion: svc.apiVersion,
+        uid: svc.metadata.uid,
+        kind: svc.kind,
+        name: svc.metadata.name,
+      };
+
       const payload = {
         metadata: {
           name: svc.metadata.name,
           namespace: svc.metadata.namespace,
+          ownerReferences: [ownerReference],
         },
         spec: {
           hosts,
