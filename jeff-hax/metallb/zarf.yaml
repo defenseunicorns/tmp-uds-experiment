@@ -1,14 +1,10 @@
 kind: ZarfPackageConfig
 metadata:
-  name: uds-metallb-setup
-  description: "UDS Metallb Setup"
+  name: uds-metallb-dev
+  description: "UDS CI & Developer Metallb Setup"
   url: https://metallb.universe.tf/installation/
+  version: 0.1.0
   yolo: true
-
-variables:
-  - name: CLUSTER_NAME
-    description: "Name of the cluster to create"
-    default: "uds"
 
 components:
   - name: metallb-config

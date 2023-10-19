@@ -1,2 +1,4 @@
 zarf-package*
 tmp-machine-id
+zarf-sbom
+uds-bundle*.zst

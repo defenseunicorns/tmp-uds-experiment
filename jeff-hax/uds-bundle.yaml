@@ -1,0 +1,30 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/defenseunicorns/uds-cli/v0.0.6-alpha/uds.schema.json
+kind: UDSBundle
+metadata:
+  name: uds-proving-grounds
+  description: Random hacks and experiments
+  version: 0.1.0
+
+zarf-packages:
+  - name: uds-k3d-dev
+    path: .
+    ref: 0.1.0
+    optional-components:
+      - "destroy-cluster"
+
+  # Zarf init
+  # - name: init
+  #   repository: ghcr.io/defenseunicorns/packages/init
+  #   ref: v0.29.1
+
+  - name: uds-metallb-dev
+    path: .
+    ref: 0.1.0
+
+  - name: uds-capabilities-istio
+    path: .
+    ref: 1.19.0
+
+  # - name: uds-capabilities-neuvector
+  #   path: .
+  #   ref: 2.6.4

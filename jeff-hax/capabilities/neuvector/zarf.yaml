@@ -4,6 +4,7 @@ metadata:
   name: uds-capabilities-neuvector
   description: "UDS Neuvector Capability"
   url: https://open-docs.neuvector.com/
+  version: 2.6.4
   #yolo: true -- yolo mode throws an error about oci
 
 variables:

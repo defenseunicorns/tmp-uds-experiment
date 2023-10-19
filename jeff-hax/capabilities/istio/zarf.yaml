@@ -3,6 +3,7 @@ metadata:
   name: uds-capabilities-istio
   description: "UDS Istio Capability"
   url: https://istio.io/latest/
+  version: 1.19.0
   yolo: true
 
 components:
