@@ -1,0 +1,11 @@
+# Default values for neuvector.
+# This is a YAML-formatted file.
+# Declare variables to be passed into the templates.
+
+registry: docker.io
+
+leastPrivilege: false
+
+exporter:
+  serviceMonitor:
+    enabled: false # true with settings

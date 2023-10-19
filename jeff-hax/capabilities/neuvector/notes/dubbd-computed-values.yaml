@@ -1,0 +1,384 @@
+admissionwebhook:
+  type: ClusterIP
+bbtests:
+  cypress:
+    artifacts: true
+    envs:
+      cypress_url: http://neuvector-service-webui.{{ .Release.Namespace }}.svc.cluster.local:8443
+  enabled: false
+  scripts:
+    envs:
+      URL: http://neuvector-service-webui.{{ .Release.Namespace }}.svc.cluster.local:8443
+bottlerocket:
+  enabled: false
+  runtimePath: /run/dockershim.sock
+containerd:
+  enabled: true
+  path: /var/run/containerd/containerd.sock
+controller:
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+            - key: app
+              operator: In
+              values:
+              - neuvector-controller-pod
+          topologyKey: kubernetes.io/hostname
+        weight: 100
+  annotations: {}
+  apisvc:
+    annotations: {}
+    route:
+      enabled: false
+      host: null
+      termination: passthrough
+      tls: null
+    type: null
+  azureFileShare:
+    enabled: false
+    secretName: null
+    shareName: null
+  certificate:
+    keyFile: tls.key
+    pemFile: tls.pem
+    secret: null
+  configmap:
+    data: null
+    enabled: false
+  containerSecurityContext:
+    capabilities:
+      drop:
+      - ALL
+    privileged: true
+    runAsNonRoot: true
+    runAsUser: 1000
+  disruptionbudget: 0
+  enabled: true
+  env: []
+  federation:
+    managedsvc:
+      annotations: {}
+      ingress:
+        annotations:
+          nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+        enabled: false
+        host: null
+        ingressClassName: ""
+        path: /
+        secretName: null
+        tls: false
+      route:
+        enabled: false
+        host: null
+        termination: passthrough
+        tls: null
+      type: null
+    mastersvc:
+      annotations: {}
+      ingress:
+        annotations:
+          nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+        enabled: false
+        host: null
+        ingressClassName: ""
+        path: /
+        secretName: null
+        tls: false
+      route:
+        enabled: false
+        host: null
+        termination: passthrough
+        tls: null
+      type: null
+  image:
+    hash: null
+    repository: ironbank/neuvector/neuvector/controller
+  ingress:
+    annotations:
+      nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+    enabled: false
+    host: null
+    ingressClassName: ""
+    path: /
+    secretName: null
+    tls: false
+  internal:
+    certificate:
+      caFile: ca.crt
+      keyFile: tls.key
+      pemFile: tls.crt
+      secret: neuvector-internal
+  nodeSelector: {}
+  podAnnotations:
+    bigbang.dev/istioVersion: 1.18.2-enterprise
+  podLabels: {}
+  priorityClassName: null
+  pvc:
+    accessModes:
+    - ReadWriteMany
+    capacity: null
+    enabled: false
+    existingClaim: false
+    storageClass: null
+  ranchersso:
+    enabled: false
+  replicas: 3
+  resources: {}
+  schedulerName: null
+  secret:
+    data:
+      oidcinitcfg.yaml:
+        always_reload: true
+        client_id: null
+        client_secret: null
+        default_role: null
+        enable: true
+        issuer: https://login.dso.mil/auth/realms/baby-yoda
+      sysinitcfg.yaml:
+        always_reload: true
+        no_telemetry_report: true
+        scan_config:
+          auto_scan: true
+      userinitcfg.yaml:
+        always_reload: true
+        users:
+        - fullname: metrics
+          password: APYY0zTuSRpW06Smp6w62Mj8thxp9z/f
+          role: reader
+          username: metrics
+        - fullname: admin
+          password: Xg4TXdX/m70kIWZMKofbfQROZMf12yAE
+          role: admin
+          username: admin
+    enabled: true
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  tolerations: []
+crdwebhook:
+  enabled: true
+  type: ClusterIP
+crio:
+  enabled: false
+  path: /var/run/crio/crio.sock
+cve:
+  scanner:
+    affinity: {}
+    containerSecurityContext:
+      capabilities:
+        drop:
+        - ALL
+      runAsNonRoot: true
+      runAsUser: 1000
+    dockerPath: ""
+    enabled: true
+    env: []
+    image:
+      hash: null
+      repository: ironbank/neuvector/neuvector/scanner
+      tag: 5
+    internal:
+      certificate:
+        caFile: ca.crt
+        keyFile: tls.key
+        pemFile: tls.crt
+        secret: neuvector-internal
+    nodeSelector: {}
+    podAnnotations:
+      bigbang.dev/istioVersion: 1.18.2-enterprise
+    podLabels: {}
+    priorityClassName: null
+    replicas: 3
+    resources: {}
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 1000
+    strategy:
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 0
+      type: RollingUpdate
+    tolerations: []
+  updater:
+    containerSecurityContext:
+      capabilities:
+        drop:
+        - ALL
+      runAsNonRoot: true
+      runAsUser: 1000
+    enabled: true
+    image:
+      hash: null
+      repository: ironbank/big-bang/base
+      tag: 2.0.0
+    nodeSelector: {}
+    podAnnotations:
+      bigbang.dev/istioVersion: 1.18.2-enterprise
+    podLabels: {}
+    priorityClassName: null
+    schedule: 0 0 * * *
+    secure: false
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 1000
+docker:
+  path: /var/run/docker.sock
+domain: bigbang.dev
+enforcer:
+  containerSecurityContext:
+    capabilities:
+      drop:
+      - ALL
+    privileged: true
+  enabled: true
+  env: []
+  image:
+    hash: null
+    repository: ironbank/neuvector/neuvector/enforcer
+  internal:
+    certificate:
+      caFile: ca.crt
+      keyFile: tls.key
+      pemFile: tls.crt
+      secret: neuvector-internal
+  podAnnotations:
+    bigbang.dev/istioVersion: 1.18.2-enterprise
+  podLabels: {}
+  priorityClassName: null
+  resources: {}
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+  tolerations:
+  - effect: NoSchedule
+    key: node-role.kubernetes.io/master
+  - effect: NoSchedule
+    key: node-role.kubernetes.io/control-plane
+  updateStrategy:
+    type: RollingUpdate
+gluon:
+  global: {}
+imagePullSecrets: private-registry
+internal:
+  certmanager:
+    enabled: false
+    secretname: neuvector-internal
+istio:
+  enabled: true
+  injection: enabled
+  mtls:
+    mode: STRICT
+  neuvector:
+    annotations: {}
+    enabled: true
+    gateways:
+    - istio-system/admin
+    hosts:
+    - neuvector.{{ .Values.domain }}
+    labels: {}
+k3s:
+  enabled: false
+  runtimePath: /run/k3s/containerd/containerd.sock
+manager:
+  affinity: {}
+  certificate:
+    keyFile: tls.key
+    pemFile: tls.pem
+    secret: null
+  containerSecurityContext:
+    capabilities:
+      drop:
+      - ALL
+    runAsNonRoot: true
+    runAsUser: 1000
+  enabled: true
+  env:
+    disableFipsInJava: true
+    ssl: false
+  image:
+    hash: null
+    repository: ironbank/neuvector/neuvector/manager
+  ingress:
+    annotations:
+      nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+    enabled: false
+    host: null
+    ingressClassName: ""
+    path: /
+    secretName: null
+    tls: false
+  nodeSelector: {}
+  podAnnotations:
+    bigbang.dev/istioVersion: 1.18.2-enterprise
+  podLabels: {}
+  priorityClassName: null
+  resources: {}
+  route:
+    enabled: true
+    host: null
+    termination: passthrough
+    tls: null
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+  svc:
+    annotations: {}
+    loadBalancerIP: null
+    type: ClusterIP
+  tolerations: []
+monitor:
+  exporter:
+    CTRL_PASSWORD: blah
+    CTRL_USERNAME: metrics
+    enabled: true
+    image:
+      repository: ironbank/neuvector/neuvector/prometheus-exporter
+      tag: 5.1.0
+    podAnnotations:
+      bigbang.dev/istioVersion: 1.18.2-enterprise
+      checksum/metrics-pass: dubbd-override
+    serviceMonitor:
+      annotations: {}
+      enabled: true
+      interval: ""
+      labels: {}
+      metricRelabelings: []
+      relabelings: []
+      scheme: https
+      tlsConfig:
+        caFile: /etc/prom-certs/root-cert.pem
+        certFile: /etc/prom-certs/cert-chain.pem
+        insecureSkipVerify: true
+        keyFile: /etc/prom-certs/key.pem
+    svc:
+      annotations: {}
+      enabled: true
+      loadBalancerIP: null
+      type: ClusterIP
+  global: {}
+  imagePullSecrets: private-registry
+  install: true
+  oem: null
+  registry: registry1.dso.mil
+  serviceAccount: default
+monitoring:
+  enabled: true
+  namespace: monitoring
+networkPolicies:
+  controlPlaneCidr: 0.0.0.0/0
+  enabled: true
+  ingressLabels:
+    app: admin-ingressgateway
+oem: null
+openshift: false
+psp: false
+rbac: true
+registry: registry1.dso.mil
+resources: {}
+serviceAccount: default
+tag: 5.1.3

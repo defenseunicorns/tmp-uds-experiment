@@ -1,0 +1,86 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/defenseunicorns/zarf/main/zarf.schema.json
+kind: ZarfPackageConfig
+metadata:
+  name: uds-capabilities-neuvector
+  description: "UDS Neuvector Capability"
+  url: https://open-docs.neuvector.com/
+  #yolo: true -- yolo mode throws an error about oci
+
+variables:
+  - name: DOMAIN
+    default: "uds.dev"
+
+components:
+  - name: neuvector-ns
+    required: true
+    manifests:
+      - name: neuvector-ns
+        files:
+          - manifests/namespace.yaml
+
+  - name: neuvector
+    required: true
+    description: "Deploy neuvector crds without flux"
+    charts:
+    - name: crd
+      url: https://neuvector.github.io/neuvector-helm/
+      version: 2.6.4
+      namespace: neuvector
+      gitPath: charts/crd
+    - name: core
+      url: https://neuvector.github.io/neuvector-helm/
+      version: 2.6.4
+      namespace: neuvector
+      gitPath: charts/core
+      valuesFiles: 
+        - values/neuvector-minimal-values.yaml
+    - name: monitor
+      url: https://neuvector.github.io/neuvector-helm/
+      version: 2.6.4
+      namespace: neuvector
+      gitPath: charts/monitor
+      valuesFiles: 
+        - values/neuvector-monitor-values.yaml
+    images:
+      - docker.io/neuvector/controller:5.2.2-s1
+      - docker.io/neuvector/manager:5.2.2-s1
+      - docker.io/neuvector/updater:latest
+      - docker.io/neuvector/scanner:latest
+      - docker.io/neuvector/enforcer:5.2.2-s1
+      - docker.io/istio/proxyv2:1.19.0
+      - docker.io/neuvector/prometheus-exporter:latest
+
+  - name: netpols
+    required: true
+    manifests:
+      - name: neuvector-network-policies
+        namespace: neuvector
+        files:
+          - manifests/networkpolicies/egress-dns.yaml
+          - manifests/networkpolicies/default-deny-all.yaml
+          - manifests/networkpolicies/egress-istiod.yaml
+          - manifests/networkpolicies/egress-kube-api.yaml
+          - manifests/networkpolicies/ingress-istio.yaml
+          - manifests/networkpolicies/ingress-monitoring.yaml
+          - manifests/networkpolicies/ingress-sidecar-monitoring.yaml
+          - manifests/networkpolicies/namespace-allow.yaml
+
+  - name: istio
+    required: true
+    manifests:
+      - name: neuvector-istio
+        namespace: neuvector
+        files:
+          - manifests/peer-authentication.yaml
+          - manifests/virtualservice.yaml
+          - manifests/istiopolicies/headless-controller-service.yaml
+          - manifests/istiopolicies/headless-enforcer-service.yaml
+          - manifests/istiopolicies/headless-scanner-service.yaml
+
+  - name: monitoring-dashboard
+    required: false
+    manifests:
+      - name: neuvector-monitoring-dashboard
+        namespace: neuvector
+        files:
+          - manifests/neuvector-dashboard.yaml

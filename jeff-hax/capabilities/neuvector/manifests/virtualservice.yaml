@@ -1,0 +1,17 @@
+
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: neuvector
+  namespace: neuvector
+spec:
+  gateways:
+    - istio-admin-gateway/admin-gateway
+  hosts:
+    - "neuvector.admin.uds.dev"
+  http:
+    - route:
+        - destination:
+            port:
+              number: 8443
+            host: neuvector-service-webui.neuvector.svc.cluster.local
