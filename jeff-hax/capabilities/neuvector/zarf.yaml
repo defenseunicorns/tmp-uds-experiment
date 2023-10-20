@@ -6,10 +6,6 @@ metadata:
   url: https://open-docs.neuvector.com/
   version: 2.6.4
 
-variables:
-  - name: DOMAIN
-    default: "uds.dev"
-
 components:
   - name: neuvector-ns
     required: true
@@ -20,7 +16,7 @@ components:
 
   - name: neuvector
     required: true
-    description: "Deploy neuvector crds without flux"
+    description: "Deploy Neuvector"
     charts:
     - name: crd
       url: https://neuvector.github.io/neuvector-helm/
@@ -72,7 +68,7 @@ components:
         namespace: neuvector
         files:
           - manifests/peer-authentication.yaml
-          - manifests/virtualservice.yaml
+          - manifests/pepr-config.yaml
           - manifests/istiopolicies/headless-controller-service.yaml
           - manifests/istiopolicies/headless-enforcer-service.yaml
           - manifests/istiopolicies/headless-scanner-service.yaml

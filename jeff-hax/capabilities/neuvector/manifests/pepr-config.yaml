@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: uds-neuvector-service-webui
+  namespace: neuvector
+  labels:
+    "uds/istio-gateway": "admin"
+    "uds/istio-host": "neuvector.admin.uds.dev"
