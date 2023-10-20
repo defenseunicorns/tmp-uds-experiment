@@ -4,7 +4,6 @@ metadata:
   description: "UDS CI & Developer Metallb Setup"
   url: https://metallb.universe.tf/installation/
   version: 0.1.0
-  yolo: true
 
 components:
   - name: metallb-config
@@ -13,7 +12,7 @@ components:
     actions:
       onDeploy:
         before:
-          - cmd: zarf tools kubectl get nodes -o=jsonpath='{.items[0].status.addresses[?(@.type=="InternalIP")].address}' | cut -d'.' -f1-3
+          - cmd: ./zarf tools kubectl get nodes -o=jsonpath='{.items[0].status.addresses[?(@.type=="InternalIP")].address}' | cut -d'.' -f1-3
             description: "Load network ip base for MetalLB"
             setVariables:
               - name: BASE_IP
@@ -26,6 +25,10 @@ components:
       - name: metallb-config
         files:
           - "metallb.yaml"
+    images:
+      - quay.io/metallb/controller:v0.13.11
+      - quay.io/metallb/speaker:v0.13.11
+      - quay.io/frrouting/frr:8.5.2
 
   - name: haproxy-ingress
     required: true
@@ -34,3 +37,5 @@ components:
       - name: haproxy-k3d-helper
         files:
           - "haproxy.yaml"
+    images:
+      - "cgr.dev/chainguard/haproxy:latest"

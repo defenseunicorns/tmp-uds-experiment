@@ -82,7 +82,7 @@ spec:
     spec:
       containers:
         - name: haproxy
-          image: haproxy:latest
+          image: cgr.dev/chainguard/haproxy:latest
           command: ["haproxy", "-V", "-f", "/usr/local/etc/haproxy/haproxy.cfg"]
           ports:
             - containerPort: 80

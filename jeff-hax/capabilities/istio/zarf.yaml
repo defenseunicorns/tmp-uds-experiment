@@ -4,7 +4,6 @@ metadata:
   description: "UDS Istio Capability"
   url: https://istio.io/latest/
   version: 1.19.0
-  yolo: true
 
 components:
   - name: istio-controlplane
@@ -25,6 +24,9 @@ components:
         files:
           - "manifests/envoy-filters.yaml"
           - "manifests/peer-authentication.yaml"
+    images:
+      - "docker.io/istio/pilot:1.19.0"
+      - "docker.io/istio/proxyv2:1.19.0"
 
   - name: istio-admin-gateway
     required: true

@@ -1,48 +1,38 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/defenseunicorns/uds-cli/v0.0.6-alpha/uds.schema.json
 kind: UDSBundle
 metadata:
-  name: dubbd-experiments
+  name: proving-grounds
   description: An experimental UDS bundle for deploying Defense Unicorns Big Bang Distro on k3d
-  version: 0.0.1
-  #architecture: amd64
+  version: 0.1.0
 
 zarf-packages:
-
   # Cluster setup
-  - name: uds-k3d-dev #k3d-create
-    path: build #k3d
+  - name: uds-k3d-dev
+    path: build
     ref: 0.1.0
-
-  - name: uds-metallb-dev
-    path: build #metallb
-    ref: 0.1.0
-
-
-  # Defense Unicorns Big Bang Distro
-
-  # Istio
-  - name: uds-capabilities-istio
-    path: build #capabilities/istio
-    ref: 1.19.0
+    optional-components:
+      - "destroy-cluster"
 
   # Zarf init required for neuvector currently not working in yolo mode
   - name: init
     repository: ghcr.io/defenseunicorns/packages/init
     ref: v0.29.1
-    optional-components:
-      - git-server
 
-  # Neuvector
+  - name: uds-metallb-dev
+    path: build
+    ref: 0.1.0
+
+  # Defense Unicorns Big Bang Distro
+  - name: uds-capabilities-istio
+    path: build
+    ref: 1.19.0
+
+  - name: pepr-uds-istio
+    path: build
+    ref: 0.1.0
+
   - name: uds-capabilities-neuvector
-    path: build #capabilities/neuvector
+    path: build
     ref: 2.6.4
     # optional-components:
     #   - monitoring-dashboard
-
-  #   auto destroy cluster this cannot be done right now because present state 
-  #   uds-cli cant reuse compeonents
-  # - name: uds-k3d-setup #k3d-destroy
-  #   path: build
-  #   ref: 0.0.0
-  #   optional-components:
-  #     - destroy-cluster
