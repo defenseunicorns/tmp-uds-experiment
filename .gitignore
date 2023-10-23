@@ -3,3 +3,4 @@ tmp-machine-id
 zarf-sbom
 uds-bundle*.zst
 jeff-hax/build*
+node_modules
