@@ -7,7 +7,6 @@ import {
 export const IstioVirtualService = new Capability({
   name: "istio-virtual-service",
   description: "Generate Istio VirtualService resources",
-  namespaces: [],
 });
 
 // Use the 'When' function to create a new action

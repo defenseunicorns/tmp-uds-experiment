@@ -24,14 +24,14 @@ components:
             cmd: |
               npm ci
               npx pepr build
-            dir: capabilities/istio/uds-pepr-istio
+            dir: capabilities/istio/pepr
 
           - description: Build the zarf packages
             cmd: |
               ./zarf p c k3d --confirm -o build
               ./zarf p c metallb --confirm -o build
               ./zarf p c capabilities/istio --confirm -o build
-              ./zarf p c capabilities/istio/uds-pepr-istio/dist --confirm -o build
+              ./zarf p c capabilities/istio/pepr/dist --confirm -o build
               ./zarf p c capabilities/neuvector --confirm -o build
 
           - description: Build the bundle

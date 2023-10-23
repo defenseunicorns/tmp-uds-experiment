@@ -13,7 +13,6 @@ zarf-packages:
     optional-components:
       - "destroy-cluster"
 
-  # Zarf init required for neuvector currently not working in yolo mode
   - name: init
     repository: ghcr.io/defenseunicorns/packages/init
     ref: v0.29.1

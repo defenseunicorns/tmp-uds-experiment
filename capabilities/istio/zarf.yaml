@@ -39,7 +39,7 @@ components:
         version: 1.19.0
       - name: uds-istio-config
         version: 0.1.0
-        localPath: uds-istio-config
+        localPath: chart
         namespace: istio-admin-gateway
         valuesFiles:
           - "values/config-admin.yaml"
@@ -55,7 +55,7 @@ components:
         version: 1.19.0
       - name: uds-istio-config
         version: 0.1.0
-        localPath: uds-istio-config
+        localPath: chart
         namespace: istio-tenant-gateway
         valuesFiles:
           - "values/config-tenant.yaml"
@@ -71,7 +71,7 @@ components:
         version: 1.19.0
       - name: uds-istio-config
         version: 0.1.0
-        localPath: uds-istio-config
+        localPath: chart
         namespace: istio-passthrough-gateway
         valuesFiles:
           - "values/config-passthrough.yaml"
