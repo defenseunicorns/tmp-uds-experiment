@@ -4,3 +4,4 @@ zarf-sbom
 uds-bundle*.zst
 build*
 node_modules
+env.ts

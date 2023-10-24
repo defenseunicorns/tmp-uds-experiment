@@ -5,11 +5,6 @@ metadata:
   url: https://istio.io/latest/
   version: 1.19.0
 
-variables:
-  - name: UDS_DOMAIN
-    description: "The domain name to use for the cluster"
-    default: "uds.dev"
-
 components:
   - name: istio-controlplane
     required: true

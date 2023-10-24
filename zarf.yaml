@@ -33,6 +33,7 @@ components:
               ./zarf p c capabilities/istio --confirm -o build
               ./zarf p c capabilities/istio/pepr/dist --confirm -o build
               ./zarf p c capabilities/neuvector --confirm -o build
+              ./zarf p c stacks/uds-core --confirm -o build
 
           - description: Build the bundle
             cmd: |

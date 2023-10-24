@@ -1,0 +1,35 @@
+kind: ZarfPackageConfig
+metadata:
+  name: uds-k3d-dev
+  description: UDS K3d Cluster Setup
+  version: 0.1.0
+
+variables:
+  - name: CLUSTER_NAME
+    description: "Name of the cluster"
+    default: "uds"
+
+  - name: K3D_IMAGE
+    description: "K3d image to use"
+    default: "rancher/k3s:v1.27.4-k3s1"
+
+components:
+  # Boo this needs init squeezed in here....
+  # - name: destroy-cluster
+  #   import:
+  #     path: ../../k3d
+
+  # - name: create-cluster
+  #   required: true
+  #   import:
+  #     path: ../../k3d
+
+  - name: metallb-config
+    required: true
+    import:
+      path: ../../metallb
+
+  - name: haproxy-ingress
+    required: true
+    import:
+      path: ../../metallb
