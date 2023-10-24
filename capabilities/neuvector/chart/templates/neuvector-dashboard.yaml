@@ -1,3 +1,4 @@
+{{- if .Values.grafana.enabled -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -6,4 +7,5 @@ metadata:
   labels:
     grafana_dashboard: "1"
 data:
-  neuvector-dashboard.json: |
+  neuvector-dashboard.json: "{}"
+{{- end }}
