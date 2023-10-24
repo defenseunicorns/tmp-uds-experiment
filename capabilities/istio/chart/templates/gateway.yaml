@@ -3,6 +3,8 @@ kind: Gateway
 metadata:
   name: {{ .Values.name }}-gateway
   namespace: {{ .Release.Namespace }}
+  labels:
+    "uds/istio-domain": {{ .Values.domain }}
 spec:
   selector:
     app: {{ .Values.name }}-ingressgateway

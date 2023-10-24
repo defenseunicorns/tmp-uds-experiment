@@ -1,6 +1,6 @@
 {
   "name": "uds-pepr-istio",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A resusable Pepr Capability for the Istio service mesh for use with UDS.",
   "keywords": [
     "pepr",
