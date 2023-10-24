@@ -11,11 +11,9 @@ const { When } = IstioInjection;
 
 When(a.Namespace)
   .IsCreatedOrUpdated()
-  // Require the namespace to have a label for Istio injection
-  .Validate(ns => {
-    if (ns.HasLabel("istio-injection")) {
-      return ns.Approve();
+  .Mutate(ns => {
+    // If the istio-injection label is not present, add it and set it to "enabled"
+    if (!ns.HasLabel("istio-injection")) {
+      ns.SetLabel("istio-injection", "enabled");
     }
-
-    return ns.Deny("Namespace must have a label for Istio injection");
   });
