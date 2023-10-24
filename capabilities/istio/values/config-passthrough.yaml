@@ -1,7 +1,7 @@
 name: passthrough
 
 hosts:
-  - "keycloak.uds.dev"
+  - "keycloak.###ZARF_VAR_UDS_DOMAIN###"
 
 tls:
   enablePassthrough: true

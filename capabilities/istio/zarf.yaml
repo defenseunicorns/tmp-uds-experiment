@@ -5,6 +5,11 @@ metadata:
   url: https://istio.io/latest/
   version: 1.19.0
 
+variables:
+  - name: UDS_DOMAIN
+    description: "The domain name to use for the cluster"
+    default: "uds.dev"
+
 components:
   - name: istio-controlplane
     required: true
@@ -38,7 +43,7 @@ components:
         url: https://istio-release.storage.googleapis.com/charts
         version: 1.19.0
       - name: uds-istio-config
-        version: 0.1.0
+        version: 0.2.0
         localPath: chart
         namespace: istio-admin-gateway
         valuesFiles:
@@ -54,7 +59,7 @@ components:
         url: https://istio-release.storage.googleapis.com/charts
         version: 1.19.0
       - name: uds-istio-config
-        version: 0.1.0
+        version: 0.2.0
         localPath: chart
         namespace: istio-tenant-gateway
         valuesFiles:
@@ -70,7 +75,7 @@ components:
         url: https://istio-release.storage.googleapis.com/charts
         version: 1.19.0
       - name: uds-istio-config
-        version: 0.1.0
+        version: 0.2.0
         localPath: chart
         namespace: istio-passthrough-gateway
         valuesFiles:

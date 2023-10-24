@@ -21,7 +21,7 @@ metadata:
     app: httpbin
     service: httpbin
     uds/istio-gateway: tenant
-    uds/istio-host: demo.uds.dev
+    uds/istio-host: demo
 spec:
   ports:
     - name: http
