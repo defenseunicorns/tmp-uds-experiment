@@ -1,0 +1,4 @@
+service:
+  labels:
+    uds/istio-gateway: admin
+    uds/istio-host: grafana.admin.uds.dev
