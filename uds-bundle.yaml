@@ -33,3 +33,7 @@ zarf-packages:
   - name: uds-capabilities-neuvector
     path: build
     ref: 2.6.4
+
+  - name: uds-capabilities-grafana
+    path: build
+    ref: 6.61.1
