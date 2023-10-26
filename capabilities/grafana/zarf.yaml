@@ -7,41 +7,23 @@ metadata:
   version: 6.61.1
 
 components:
-- name: grafana-ns
-  required: true
-  manifests:
-  - name: grafana-ns
-    files:
-    - manifests/namespace.yaml
-
-- name: grafana
-  required: true
-  description: "Deploy Grafana"
-  charts:
   - name: grafana
-    url: https://grafana.github.io/helm-charts/
-    version: 6.61.1
-    namespace: grafana
-    valuesFiles:
-    - values/values.yaml
-  images:
-  - docker.io/grafana/grafana:10.1.5
+    required: true
+    description: "Deploy Grafana"
+    charts:
+      - name: grafana
+        url: https://grafana.github.io/helm-charts/
+        version: 6.61.1
+        namespace: grafana
+        valuesFiles:
+          - values/values.yaml
+    images:
+      - docker.io/grafana/grafana:10.1.5
 
-- name: netpols
-  required: true
-  manifests:
-  - name: grafana-network-policies
-    namespace: grafana
-    files:
-    - manifests/networkpolicies/default-deny-all.yaml
-    - manifests/networkpolicies/allow-in-ns.yaml
-    - manifests/networkpolicies/egress-tempo.yaml
-    - manifests/networkpolicies/ingress-tempo.yaml
-
-- name: istio
-  required: true
-  manifests:
-  - name: grafana-istio
-    namespace: grafana
-    files:
-    - manifests/peer-authentication.yaml
+  - name: uds-grafana-config
+    required: true
+    charts:
+      - name: uds-grafana-config
+        namespace: grafana
+        version: 0.1.0
+        localPath: chart
